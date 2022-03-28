@@ -8,7 +8,7 @@ public class Ray {
 		dir=newVec.normalize();	
 		p0=newP;
 	}
- public Vector getVector() {
+ public Vector getDir() {
 	  return dir;
  }
   public Point getPoint() {

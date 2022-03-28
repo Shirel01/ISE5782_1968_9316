@@ -20,7 +20,5 @@ public class Triangle extends Polygon {
 	public String toString() {
 		return "points are"+p1+","+p2+","+p3;
 	}
-	public Vector getNormal( ) {
-		return null;
-	}
+	
 }
