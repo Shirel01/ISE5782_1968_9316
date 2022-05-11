@@ -8,7 +8,7 @@ import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
- * @author 
+ * @author h
  *
  */
 public class Cylinder extends Tube{
