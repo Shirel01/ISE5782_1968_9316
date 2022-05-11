@@ -57,5 +57,11 @@ public double distance(Point p){
 	return Math.sqrt(distanceSquared(p));
 	
 }
+public double getX() {
+	return xyz.d1;
+}
+public double getY() {
+	return xyz.d2;
+}
 }
 

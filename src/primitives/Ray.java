@@ -8,6 +8,10 @@ public class Ray {
 		dir=newVec.normalize();	
 		p0=newP;
 	}
+	public Point getPoint(double t) {
+		return p0.add(dir.scale(t));
+		
+	}
  public Vector getDir() {
 	  return dir;
  }
@@ -24,9 +28,12 @@ public class Ray {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Double3))
+		if (!(obj instanceof Ray))
 			return false;
 		Ray other = (Ray) obj;
 		return other.dir.equals(this.dir) && other.p0.equals(this.p0);
+	}
+	Ray findClosestPoint(List<Point>) {
+		
 	}
 }

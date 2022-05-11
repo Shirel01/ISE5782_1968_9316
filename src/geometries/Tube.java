@@ -4,8 +4,10 @@
 package geometries;
 
 import primitives.Point;
+//import primitives.Util;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.*;
 
 /**
  * @author 
@@ -13,12 +15,29 @@ import primitives.Vector;
  */
 public class Tube   {
 
+	
 	Ray _axisRay;
 	double _radius;
 	public Tube(Ray ray, double d) {
 		_axisRay=ray;
 		_radius=d;
 	}
+	public Ray get_axisRay() {
+		return _axisRay;
+	}
+
+	//public void set_axisRay(Ray _axisRay) {
+	//	this._axisRay = _axisRay;
+	//}
+
+	public double get_radius() {
+		return _radius;
+	}
+
+	//public void set_radius(double _radius) {
+	//	this._radius = _radius;
+	//}
+
 
 	public Vector getNormal( ) {
 		return null;
@@ -47,11 +66,6 @@ public class Tube   {
 
         return n;
     }
-
 	
-
-	public Object getAxisRay() {
-		return _axisRay;
-	}
 	
 }

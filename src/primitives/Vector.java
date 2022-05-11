@@ -65,7 +65,8 @@ public class Vector extends Point {
 		double len = length();
 		return new Vector(xyz.reduce(len));
 	}
-
+	
+/*
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -76,6 +77,21 @@ public class Vector extends Point {
 			return false;
 		Point other = (Point) obj;
 		return super.equals(other);
+	}*/
+
+	
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+	return (this.xyz.equals(((Vector)obj).xyz ));
+		//return true;
 	}
 
 	@Override
