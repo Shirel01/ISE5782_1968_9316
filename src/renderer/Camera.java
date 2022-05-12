@@ -12,6 +12,7 @@ public class Camera {
     private double _distance;        // camera's distance from View Plane
     private double _width;           // ViewPlane's width
     private double _height;          // ViewPlane's height
+    private ImageWriter _imageWriter;
     
     
     /***********getters************/
@@ -21,6 +22,17 @@ public class Camera {
 	}
 	
 	
+	public ImageWriter getImageWriter() {
+		return _imageWriter;
+	}
+
+
+	public Camera setImageWriter(ImageWriter _imageWriter) {
+		this._imageWriter = _imageWriter;
+		return this;
+	}
+
+
 	public Vector getvUp() {
 		return _vUp;
 	}

@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 public class Ray {
 	final Vector dir;
 	final Point p0;
@@ -33,7 +35,16 @@ public class Ray {
 		Ray other = (Ray) obj;
 		return other.dir.equals(this.dir) && other.p0.equals(this.p0);
 	}
-	Ray findClosestPoint(List<Point>) {
-		
+	public Point findClosestPoint(List<Point>points) {
+		if(points == null)
+			return null;
+		Point closet = points.get(0);
+		for (Point point3d : points) 
+		{
+			if(point3d.distance(p0) < closet.distance(p0))
+				closet= point3d;
+		}
+		return closet;
 	}
+	
 }
