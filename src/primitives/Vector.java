@@ -99,4 +99,9 @@ public class Vector extends Point {
 		return "->" + super.toString();
 	}
 
+	public void rotateVector(Vector axis, double theta) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

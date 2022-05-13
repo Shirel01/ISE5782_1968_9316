@@ -5,12 +5,12 @@ import primitives.Ray;
 import scene.Scene;
 
 public abstract class RayTracerBase {
-	protected Scene scene;
+	protected Scene _scene;
 	
 	public RayTracerBase(Scene scene) {
 		super();
-		this.scene = scene;
+		this._scene = scene;
 	}
 
-	public abstract Color traceRay(Ray r);
+	public abstract Color traceRay(Ray r,boolean isSoftShadow);
 }

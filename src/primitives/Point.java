@@ -15,8 +15,8 @@ public class Point {
 	 * 
 	 */
 public final Double3 xyz;
+public static final Point ZERO = new Point(0d, 0d, 0d);
 
-public static final Point zero=new Point(0,0,0);
 public Point(Double3 n) {
 	 xyz=n;	
 	}
