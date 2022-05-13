@@ -1,7 +1,7 @@
 package primitives;
 
 import java.util.List;
-
+import geometries.Intersectable.GeoPoint;
 public class Ray {
 	final Vector dir;
 	final Point p0;
@@ -46,5 +46,29 @@ public class Ray {
 		}
 		return closet;
 	}
-	
+	/**
+     * Find the closest Geo Point to Ray's origin
+     *
+     * @param getPointList
+     * @return closest GeoPoint
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> getPointList) {
+
+        GeoPoint result = null;
+        double distance = Double.MAX_VALUE;
+        double d;
+        if (getPointList == null)
+            return null;
+
+
+        for (var geo : getPointList) {
+            d = geo.point.distance(p0);
+            if (d < distance) {
+                distance = d;
+                result = geo;
+            }
+        }
+        return result;
+    }
+
 }
