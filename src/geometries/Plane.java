@@ -15,7 +15,7 @@ import primitives.Ray;
  * @author lenovo
  *
  */
-public class Plane implements Geometry{
+public class Plane extends Geometry{
 
 	/**
 	 * 
@@ -56,12 +56,15 @@ public class Plane implements Geometry{
 	    public Vector getNormal(Point point) {
 	        return getNormal();
 	    }
-	 @Override
+	/**
+	 *  @Override
+	 */
 	    /** Function that finds all the intersections of a ray with the plane
 	     *@param ray :The ray that intersects the plane
 	     * @return a list of points which are all the intersections with the ray
 	     *
 	     * **/
+	 /**
 	    public List<Point> findIntersections(Ray ray) {
 	        Point P0 = ray.getPoint();
 	        Vector v = ray.getDir();
@@ -85,4 +88,29 @@ public class Plane implements Geometry{
 	        }
 	        return null;
 	        }
+	    */
+	@Override
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+		 Point P0 = ray.getPoint();
+	        Vector v = ray.getDir();
+	        Vector n = _normal;
+
+	        //denominator
+	        double nv = n.dotProduct(v);
+
+	        if (isZero(nv)) {
+	            return null;
+	        }
+
+	        Vector P0_Q = _q0.subtract(P0);
+
+	        double t = alignZero(n.dotProduct(P0_Q) / nv);
+	        // if t< 0 the ray point to the opposite direction
+	        //if t ===0  the ray origin lay with the plane
+	        if (t > 0 && alignZero(t- maxDistance )<0) { // not too big and positive
+	            Point P = P0.add(v.scale(t));
+	            return List.of(new GeoPoint(this, P));
+	        }
+	        return null;
+	}
 }

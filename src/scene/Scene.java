@@ -10,6 +10,7 @@ public class Scene {
 	public Color _background;
 	public AmbientLight _ambiantLight;
 	public final Geometries _geometries;//=new Geometries();
+
 	
 	public Color get_background() {
 		return _background;

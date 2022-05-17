@@ -36,15 +36,8 @@ public class Ray {
 		return other.dir.equals(this.dir) && other.p0.equals(this.p0);
 	}
 	public Point findClosestPoint(List<Point>points) {
-		if(points == null)
-			return null;
-		Point closet = points.get(0);
-		for (Point point3d : points) 
-		{
-			if(point3d.distance(p0) < closet.distance(p0))
-				closet= point3d;
-		}
-		return closet;
+		return points == null || points.isEmpty() ? null
+		      : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
 	}
 	/**
      * Find the closest Geo Point to Ray's origin

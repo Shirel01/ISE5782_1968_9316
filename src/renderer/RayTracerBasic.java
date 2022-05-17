@@ -1,5 +1,5 @@
 package renderer;
-
+import geometries.Intersectable.GeoPoint;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -10,23 +10,12 @@ import scene.Scene;
 
 public class RayTracerBasic extends RayTracerBase {
 
-	@Override
-	// public Color traceRay(Ray ray, boolean isSoftShadows) {
-	//	Point point = ray.findClosestPoint(_scene._geometries.findIntersections(ray));
-	//	if (point == null) {
-	//		return _scene.get_background();
-	//	}
-	//	return calcColor(point);
-	//}
-	
-	 public Color traceRay(Ray ray, boolean isSoftShadows) {
-
-	        List<GeoPoint> points = _scene.geometries.findGeoIntersections(ray);
-	        if (points != null) {
-	            GeoPoint p = ray.findClosestGeoPoint(points);
-				return calcColor(p, ray);
-	        }
-	        return _scene.get_background();
+	 public Color traceRay(Ray ray, boolean b) {
+	       
+	        var intersections = _scene._geometries.findGeoIntersections(ray);
+	        if (intersections == null) return _scene._background;
+	        GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
+	        return calcColor(closestPoint);
 	    }
 
 	        /**List<GeoPoint> myPoints = _scene.geometries.findGeoIntersections(ray);
@@ -38,12 +27,10 @@ public class RayTracerBasic extends RayTracerBase {
 	    }**/
 	
 	
-		
-	 private Color calcColor(GeoPoint intersection, Ray ray) {
-        return _scene.ambientlight.getIntensity()
-                .add(intersection.geometry.getEmission())
-                .add(calcLocalEffects(intersection, ray));
-    }
+	 private Color calcColor(GeoPoint gp) {
+	        return _scene._ambiantLight.getIntensity()
+	                .add(gp.geometry.getEmission());
+	    }
 
 	public RayTracerBasic(Scene scene) {
 		super(scene);

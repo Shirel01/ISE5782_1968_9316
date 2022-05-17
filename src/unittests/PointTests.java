@@ -20,12 +20,13 @@ class PointTests {
 	 * Test method for {@link primitives.Point#subtract(primitives.Point)}.
 	 */
 	@Test
-	void testSubtract() {
-		Point p1=new Point(1,2,3);
-		Point p2=new Point (0,0,0);
-		//assertTrue((p1.subtract (p2)).equals(new  Point(1,2,3)),"ddsf");
-	assertEquals(p1.subtract (p2),new  Point(1,2,3) );
-	}
+	  public void testSubtract() {
+        Point p1 = new Point(1, 1, -100);
+        Point p2 = new Point(-1, 1, -99);
+        Vector result;
+        result = p1.subtract(p2);
+    }
+
 
 	/**
 	 * Test method for {@link primitives.Point#add(primitives.Vector)}.
