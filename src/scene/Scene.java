@@ -1,52 +1,72 @@
 package scene;
-
 import geometries.Geometries;
-import lighting.AmbientLight;
+import lighting.*;
 import primitives.Color;
-import primitives.Double3;
+
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Scene {
-	public final String _name;
-	public Color _background;
-	public AmbientLight _ambiantLight;
-	public final Geometries _geometries;//=new Geometries();
+    private final String name;
 
-	
-	public Color get_background() {
-		return _background;
-	}
+    public final Color _background ;
+    public final AmbientLight _ambientlight ;
+    public final Geometries _geometries;
 
-
-
-	public Scene setBackground(Color _background) {
-		this._background = _background;
-		return this;
-	}
-
-
-
-	public AmbientLight get_ambiantLight() {
-		return _ambiantLight;
-	}
-
-
-
-	public Scene setAmbientLight(AmbientLight _ambiantLight) {
-		this._ambiantLight = _ambiantLight;
-		return this;
-	}
-	
-	public Scene(String name){
-		this._name=name;
-		this._background = Color.BLACK;
-		this._ambiantLight = new AmbientLight(Color.BLACK, new Double3(1.0,1.0,1.0));
-		this._geometries= new Geometries();
-	}
-	
-   
+    List<LightSource> lights=new LinkedList<>();
 
     public String getName() {
-        return _name;
+        return name;
+    }
+    public Scene(SceneBuilder builder) {
+        name = builder.name;
+        _background=builder.background;
+        _ambientlight=builder.ambientLight;
+        _geometries= builder.geometries;
+        lights=builder.lights;
     }
 
+    public Color getBackground() {
+        return _background;
+    }
+    public AmbientLight getAmbientlight() {
+        return _ambientlight;
+    }
+    public Geometries getGeometries() {
+        return _geometries;
+    }
+    public static class SceneBuilder{
+        private final String name;
+        private Color background=Color.BLACK;
+        private AmbientLight ambientLight=new AmbientLight();
+        private Geometries geometries=new Geometries();
+        private  List<LightSource> lights=new LinkedList<>();
+
+        public SceneBuilder(String name) {
+            this.name = name;
+        }
+        //chaining set methods (this NOT a builder pattern)
+    public SceneBuilder setBackground(Color background) {
+        this.background = background;
+        return  this;
+    }
+    public SceneBuilder setAmbientLight(AmbientLight ambientlight) {
+        this.ambientLight = ambientlight;
+        return this;
+    }
+    public SceneBuilder setGeometries(Geometries geometries) {
+        this.geometries = geometries;
+        return  this;
+    }
+    public String getName() {
+        return name;
+    }
+    public Scene build()
+    {
+        Scene scene =new Scene(this);
+      
+        return scene;
+    }
+    }
 }

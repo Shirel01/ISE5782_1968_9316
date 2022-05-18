@@ -28,7 +28,7 @@ public class RayTracerBasic extends RayTracerBase {
 	
 	
 	 private Color calcColor(GeoPoint gp) {
-	        return _scene._ambiantLight.getIntensity()
+	        return _scene._ambientlight.getIntensity()
 	                .add(gp.geometry.getEmission());
 	    }
 

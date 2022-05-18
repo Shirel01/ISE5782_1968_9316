@@ -13,13 +13,14 @@ public class Color {
 	 * The internal fields tx`o maintain RGB components as double numbers from 0 to
 	 * whatever...
 	 */
-	private final Double3 rgb;
+	public final Double3 rgb;
 
 	/**
 	 * Black color = (0,0,0)
 	 */
 	public static final Color BLACK = new Color();
-
+	public static final Color BLUE = new Color(0,0,255d);
+    public static final Color WHITE = new Color(255d,255d,255d);
 	/**
 	 * Default constructor - to generate Black Color (privately)
 	 */

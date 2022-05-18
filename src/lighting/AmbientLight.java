@@ -3,14 +3,16 @@ package lighting;
 import primitives.Color;
 import primitives.Double3;
 
-public class AmbientLight {
+public class AmbientLight extends Light{
 	Color _intensity;
 	
 	public AmbientLight(Color Ia,Double3 Ka){
-		_intensity=Ia.scale(Ka);
+		super(Ia.scale(Ka));
 	}
 	
-	public Color getIntensity() {
-		return _intensity;
-	}
+	public AmbientLight()
+    {
+        super(Color.BLACK);
+        
+    }
 }
