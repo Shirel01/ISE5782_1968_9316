@@ -1,132 +1,178 @@
 package renderer;
-
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-import static primitives.Util.isZero;
+import primitives.*;
 
 import java.util.MissingResourceException;
 
+import static primitives.Util.isZero;
+
+/**
+ * Camera producing rays through a View Plane
+ */
 public class Camera {
-	
-	private Point _p0;       //camera eye
-    private Vector _vUp,_vTo,_vRight;    
-    private double _distance=10;        // camera's distance from View Plane
-    private double _width=500;           // ViewPlane's width
-    private double _height=500;        // ViewPlane's height
+
+    //Private variables
+    private Point p0;       //camera eye
+    private Vector vUp;     // vector pointing upwards : Y axis
+    private Vector vTo;     // vector pointing towards the scene
+    private Vector vRight;  // vector pointing towards the right : X axis
+
+    private double distance = 10;        // camera's distance from View Plane
+    private double width = 500;           // ViewPlane's width
+    private double height = 500;          // ViewPlane's height
+
     private ImageWriter _imageWriter;
     private RayTracerBase _rayTracer;
-    
-    /***********getters************/                   /******     Add setters????,,****/
-    
-	public Point getP0() {
-		return _p0;
-	}
 
-	public Vector getvUp() {
-		return _vUp;
-	}
+    //Getter functions of the privates variables
 
-	public Vector getvTo() {
-		return _vTo;
-	}
-	
-	public Vector getvRight() {
-		return _vRight;
-	}
-	
-	public double getDistance() {
-		return _distance;
-	}
-	
-	public double getWidth() {
-		return _width;
-	}
-	
-	public double getHeight() {
-		return _height;
-	}
-	
-	public Camera(Point p0,Vector vTo,Vector vUp){
-		if(!isZero(vTo.dotProduct(vUp))) {
-			throw new IllegalArgumentException("vTo and vUp should be orthogonal");
-		}
-		
-		 _p0 = p0;
+    public Point getP0() {
+        return p0;
+    }
 
-	        // normalizing the positional vectors
-	        _vTo = vTo.normalize();
-	        _vUp = vUp.normalize();
+    public Vector getVUp() {
+        return vUp;
+    }
 
-	        _vRight = _vTo.crossProduct(_vUp);
+    public Vector getVTo() {
+        return vTo;
+    }
 
-	}
-	public Camera setCamera() {
+    public Vector getVRight() {
+        return vRight;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+    // chaining methods
+
+    //setters Variables
+
+    public void setP0(Point p0) {
+        this.p0 = p0;
+    }
+
+    public void setvUp(Vector vUp) {
+        this.vUp = vUp;
+    }
+
+    public void setvTo(Vector vTo) {
+        this.vTo = vTo;
+    }
+
+    public void setvRight(Vector vRight) {
+        this.vRight = vRight;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    /**
+     * @param p0  origin point in 3D space
+     * @param vUp vector pointing upwards
+     * @param vTo vector pointing towards
+     */
+    public Camera(Point p0, Vector vTo, Vector vUp) {
+        if (!isZero(vTo.dotProduct(vUp))) {
+            throw new IllegalArgumentException("vTo and vUp should be orthogonal");
+
+        }
+
+        this.p0 = p0;
+        // normalizing the positional vectors
+        this.vTo = vTo.normalize();
+        this.vUp = vUp.normalize();
+
+        this.vRight = this.vTo.crossProduct(this.vUp);
+
+
+    }
+
+    public Camera setCamera() {
         return this;
     }
-	
-	public Camera setVPSize(double width,double height) {
-		_width=width;
-		_height=height;
-		return this;
-		
-	}
-	public Camera setVPDistance(double distance) {
-		_distance=distance;
-		return this;
-		
-	}
+    //getters
 
-	
-	public ImageWriter getImageWriter() {
-		return _imageWriter;
-	}
-	
-	public Camera setImageWriter(ImageWriter _imageWriter) {
-		this._imageWriter = _imageWriter;
-		return this;
-	}
-	
 
-	/**
-	 * Constructing a ray through a pixel
+    /**
+     * Sets distance between the camera and it's view plane
      *
-	 * @param Nx = number of columns
+     * @param distance the distance for the view plane
+     * @return instance of the Camera for chaining
+     */
+    public Camera setVPDistance(double distance) {
+        this.distance = distance;
+        return this;
+    }
+
+    /**
+     * Setting View Plane's size
+     *
+     * @param width  "physical" width
+     * @param height "physical" height
+     * @return instance of camera for chaining
+     */
+    public Camera setVPSize(double width, double height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
+
+    /**
+     * Constructing a ray through a pixel
+     *
+     * @param Nx = number of columns
      * @param Ny = number of rows
      * @param j  = pixel's column
      * @param i  = pixel's row
      * @return ray for the camera to Pixel[i,j]
      */
-	 
-	public Ray constructRay(int nX, int nY, int j, int i) {
-		// Image center
-        Point Pc = _p0.add(_vTo.scale(_distance));
+    public Ray constructRay(int Nx, int Ny, int j, int i) {
+        // Image center
+        Point Pc = p0.add(vTo.scale(distance));
 
         // Ratio (pixel width & height)
-        double Ry = _height/ nY;
-        double Rx = _width/ nX;
+        double Ry = height / Ny;
+        double Rx = width / Nx;
 
         // Pixel [i,j] center
-        Point Pij= Pc;
+        Point Pij = Pc;
 
         // delta values for going to Pixel[i,j] from Pc
-        double yI= -(i - (nY-1)/2d)*Ry;
-        double xJ= (j - (nX-1)/2d)*Rx;
-        if(! isZero(xJ) ) {
-            Pij = Pij.add(_vRight.scale(xJ));
+        double yI = -(i - (Ny - 1) / 2d) * Ry;
+        double xJ = (j - (Nx - 1) / 2d) * Rx;
+
+
+        if (!isZero(xJ)) {
+            Pij = Pij.add(vRight.scale(xJ));
         }
 
-        if (! isZero(yI) ) {
-            Pij= Pij.add(_vUp.scale(yI));
+        if (!isZero(yI)) {
+            Pij = Pij.add(vUp.scale(yI));
         }
 
-        return new Ray(_p0, Pij.subtract(_p0));
+        return new Ray(p0, Pij.subtract(p0));
+    }
 
 
-
-	}
-	 /**
+    /**
      * @param up    delta for _vUp vector
      * @param right delta for _vRight vector
      * @param to    delta for _vTo vector
@@ -134,9 +180,9 @@ public class Camera {
      */
     public Camera moveCamera(double up, double right, double to) {
         if (up == 0 && right == 0 && to == 0) return this;
-        if (up != 0) this._p0.add(_vUp.scale(up));
-        if (right != 0) this._p0.add(_vRight.scale(right));
-        if (to != 0) this._p0.add(_vTo.scale(to));
+        if (up != 0) this.p0.add(vUp.scale(up));
+        if (right != 0) this.p0.add(vRight.scale(right));
+        if (to != 0) this.p0.add(vTo.scale(to));
         return this;
     }
 
@@ -147,13 +193,16 @@ public class Camera {
      */
     public Camera turnCamera(Vector axis, double theta) {
         if (theta == 0) return this;
-        this._vUp.rotateVector(axis, theta);
-        this._vRight.rotateVector(axis, theta);
-        this._vTo.rotateVector(axis, theta);
+        this.vUp.rotateVector(axis, theta);
+        this.vRight.rotateVector(axis, theta);
+        this.vTo.rotateVector(axis, theta);
         return this;
     }
 
-   
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this._imageWriter = imageWriter;
+        return this;
+    }
 
     public Camera setRayTracer(RayTracerBasic rayTracerBase) {
         this._rayTracer = rayTracerBase;
@@ -167,13 +216,10 @@ public class Camera {
             if (_imageWriter == null) {
                 throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
             }
-
-            // if (this== null) {
-            //      throw new MissingResourceException("missing resource", Camera.class.getName(), "");
-            //  }
             if (_rayTracer == null) {
                 throw new MissingResourceException("missing resource", RayTracerBase.class.getName(), "");
             }
+
             //rendering the image
             int nX = _imageWriter.getNx();
             int nY = _imageWriter.getNy();
@@ -184,7 +230,6 @@ public class Camera {
                     _imageWriter.writePixel(j, i, pixelColor);
                 }
             }
-            
         } catch (MissingResourceException e) {
             throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
         }
@@ -227,10 +272,3 @@ public class Camera {
 
 
 }
-
-    
-    
-
-    
-
-

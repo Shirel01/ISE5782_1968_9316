@@ -19,7 +19,17 @@ public class SpotLight extends PointLight implements LightSource{
     public Color getIntensity(Point p)
     {
         Color iO=getIntensity();
-        double d= p.distance(position);
+        double d= p.distance(_position);
          return super.getIntensity();
     }
+    /**
+     * Get the distance from the point to some point
+     * @param point the point
+     * @return the distance
+     */
+    @Override
+    public double getDistance(Point point){
+        return super.getDistance(point);
+    }
+
 }

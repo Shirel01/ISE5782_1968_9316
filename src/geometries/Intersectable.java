@@ -1,17 +1,28 @@
 package geometries;
+
+import primitives.*;
+
 import java.util.List;
 import java.util.Objects;
 
-import primitives.*;
-                                                            /**add @ in modues that umplements the method??*/
-public  abstract class Intersectable {
-	   public List<Point> findIntersections(Ray ray) {
-	        var geoList = findGeoIntersections(ray);
-	        return geoList == null ? null
-	                : geoList.stream().map(gp -> gp.point).toList();
-	    }
-	
-	 /**
+/**
+ * common interface  for all graphic objects that intersect with a ray {@link Ray}
+ */
+public abstract class Intersectable {
+
+    /**
+     * this function will find all intersection points from the Ray
+     *
+     * @param ray ray pointing towards the graphic object
+     * @return immutable list of intersection points {@link Point}
+     */
+    public List<Point> findIntersections(Ray ray) {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                : geoList.stream().map(gp -> gp.point).toList();
+    }
+
+    /**
      * Finds Geo Intersections with a ray
      * @param ray
      * @return list of geo Point
@@ -29,12 +40,16 @@ public  abstract class Intersectable {
      * @return list of GeoPoint
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance);
-	
-	
-	public static class GeoPoint {
-		public Geometry geometry;
-		public Point point;
-		/**
+
+    /**
+     * Class that contains geometry and point for implementation of intersectable
+     */
+    public static class GeoPoint {
+        public Geometry geometry;
+        public Point point;
+
+
+        /**
          * Constructor
          *
          * @param geometry the geometry
@@ -80,7 +95,3 @@ public  abstract class Intersectable {
         }
     }
 }
-		
-		
-
-

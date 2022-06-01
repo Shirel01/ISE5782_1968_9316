@@ -11,9 +11,9 @@ import static primitives.Util.*;
  * @author Dan Zilberstein
  */
 public class Double3 {
-	final double d1;
-	final double d2;
-	final double d3;
+	public final double d1; // priavte???
+    public final double d2;
+    public final double d3;
 
 	/**
 	 * Zero triad (0,0,0)
@@ -100,7 +100,7 @@ public class Double3 {
 	 * @return result of scale
 	 */
 	public Double3 scale(double rhs) {
-		return new Double3(d1 * rhs, d2 * rhs, d3 * rhs);
+		return new Double3(d1* rhs, d2 * rhs, d3 * rhs);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class Double3 {
 	 * @return result of scale
 	 */
 	public Double3 reduce(double rhs) {
-		return new Double3(d1 / rhs, d2 / rhs, d3 / rhs);
+		return new Double3(d1/ rhs, d2 / rhs, d3 / rhs);
 	}
 
 	/**
@@ -135,4 +135,5 @@ public class Double3 {
 		return d1 < k && d2 < k && d3 < k;
 	}
 
+	
 }

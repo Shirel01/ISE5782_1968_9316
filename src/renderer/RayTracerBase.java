@@ -8,7 +8,7 @@ public abstract class RayTracerBase {
 	protected Scene _scene;
 	
 	public RayTracerBase(Scene scene) {
-		super();
+		//super();
 		this._scene = scene;
 	}
 
